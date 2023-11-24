@@ -2,6 +2,7 @@ import Image from "next/image";
 import Search from "@/app/ui/search";
 import { fetchFilteredCustomers } from "@/app/lib/data";
 import { CustomersTable, FormattedCustomersTable } from "@/app/lib/definitions";
+import { AddCustomer } from "../invoices/buttons";
 
 export default async function CustomersTable({
   query,
@@ -17,7 +18,10 @@ export default async function CustomersTable({
 
   return (
     <div className="w-full">
-      <Search placeholder="Search customers..." />
+      <div className="flex justify-between space-x-4">
+        <Search placeholder="Search customers..." />
+        <AddCustomer />
+      </div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">

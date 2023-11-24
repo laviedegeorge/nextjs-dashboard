@@ -18,6 +18,13 @@ const FormSchema = z.object({
   date: z.string(),
 });
 
+const AddEditCustomerFormSchema = z.object({
+  id: z.string(),
+  name: z.string().min(4, "Your name should have 4 characters and above."),
+  email: z.string().email("Please enter a valid email"),
+  image_url: z.string(),
+});
+
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export type State = {
@@ -123,4 +130,46 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+export type AddCustomerState = {
+  errors?: {
+    name?: string[];
+    email?: string[];
+    image_url?: string[];
+  };
+  message?: string | null;
+};
+
+const AddCustomer = AddEditCustomerFormSchema.omit({ id: true });
+
+export async function addCustomer(
+  prevState: AddCustomerState,
+  formData: FormData
+) {
+  console.log("add customer", formData);
+  const validatedFields = AddCustomer.safeParse({
+    name: formData.get("name"),
+    email: formData.get("email"),
+    image_url:
+      "https://github.githubassets.com/images/modules/profile/achievements/quickdraw-default--medium-dark.png",
+  });
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Invoice.",
+    };
+  }
+
+  const { name, email, image_url } = validatedFields.data;
+  try {
+    await sql`
+      INSERT INTO CUSTOMERS (name, email, image_url)
+      VALUES(${name}, ${email}, ${image_url})
+    `;
+  } catch (error) {
+    return { message: "Database Error: Failed to add customer." };
+  }
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
 }
