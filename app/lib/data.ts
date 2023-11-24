@@ -192,6 +192,7 @@ export async function fetchFilteredCustomers(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     const data = await sql<CustomersTable>`
 		SELECT
 		  customers.id,

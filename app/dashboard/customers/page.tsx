@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
+import { lusitana } from "@/app/ui/fonts";
 import Table from "@/app/ui/customers/table";
-import Pagination from "@/app/ui/invoices/pagination";
 import { fetchCustomersPages } from "@/app/lib/data";
+import Pagination from "@/app/ui/invoices/pagination";
+import { CustomersTableSkeleton } from "@/app/ui/skeletons";
 
 export const metadata: Metadata = {
   title: "Customers",
@@ -22,12 +24,15 @@ export default async function Page({
 
   return (
     <div className="w-full">
-      <Suspense key={query + currentPage} fallback={<p>Loading...</p>}>
+      <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
+        Customers
+      </h1>
+      <Suspense key={query + currentPage} fallback={<CustomersTableSkeleton />}>
         <Table currentPage={currentPage} query={query} />
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
       </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
     </div>
   );
 }
