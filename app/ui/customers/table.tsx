@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Search from "@/app/ui/search";
 import { fetchFilteredCustomers } from "@/app/lib/data";
+import { AddCustomer, EditCustomer } from "../invoices/buttons";
 import { CustomersTable, FormattedCustomersTable } from "@/app/lib/definitions";
-import { AddCustomer } from "../invoices/buttons";
 
 export default async function CustomersTable({
   query,
@@ -64,6 +64,9 @@ export default async function CustomersTable({
                     <div className="pt-4 text-sm">
                       <p>{customer.total_invoices} invoices</p>
                     </div>
+                    <div className="flex justify-end gap-2">
+                      <EditCustomer id={customer.id} />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -84,6 +87,9 @@ export default async function CustomersTable({
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Total Paid
+                    </th>
+                    <th scope="col" className="relative py-3 pl-6 pr-3">
+                      <span className="sr-only">Edit</span>
                     </th>
                   </tr>
                 </thead>
@@ -114,6 +120,11 @@ export default async function CustomersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {customer.total_paid}
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                        <div className="flex justify-end gap-3">
+                          <EditCustomer id={customer.id} />
+                        </div>
                       </td>
                     </tr>
                   ))}

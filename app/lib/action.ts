@@ -147,7 +147,6 @@ export async function addCustomer(
   prevState: AddCustomerState,
   formData: FormData
 ) {
-  console.log("add customer", formData);
   const validatedFields = AddCustomer.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -169,6 +168,41 @@ export async function addCustomer(
     `;
   } catch (error) {
     return { message: "Database Error: Failed to add customer." };
+  }
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
+}
+
+const EditCustomer = AddEditCustomerFormSchema.omit({
+  image_url: true,
+  id: true,
+});
+
+export async function editCustomer(
+  id: string,
+  prevState: AddCustomerState,
+  formData: FormData
+) {
+  const validatedFields = EditCustomer.safeParse({
+    name: formData.get("name"),
+    email: formData.get("email"),
+  });
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Invoice.",
+    };
+  }
+
+  const { name, email } = validatedFields.data;
+  try {
+    await sql`
+      UPDATE CUSTOMERS
+      SET name = ${name}, email = ${email}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    return { message: "Database Error: Failed to edit customer." };
   }
   revalidatePath("/dashboard/customers");
   redirect("/dashboard/customers");

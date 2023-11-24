@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
-import AddCustomerForm from "@/app/ui/customers/add-form";
+import AddCustomerForm from "@/app/ui/customers/add-edit-form";
 
 export const metadata: Metadata = {
   title: "Add customer",

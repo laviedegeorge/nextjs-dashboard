@@ -4,12 +4,23 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "../button";
 import { useFormState } from "react-dom";
-import { addCustomer } from "@/app/lib/action";
+import { Customer } from "@/app/lib/definitions";
+import { useParams, usePathname } from "next/navigation";
+import { addCustomer, editCustomer } from "@/app/lib/action";
 import { UserCircleIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 
-export default function AddCustomerForm() {
+export default function AddEditCustomerForm({
+  customer,
+}: {
+  customer?: Customer;
+}) {
+  const pathName = usePathname();
+  const isEdit = pathName.includes("edit");
   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(addCustomer, initialState);
+  const customerId = customer?.id || "";
+  const editCustomerWithId = editCustomer.bind(null, customerId);
+  const dispatchFn = isEdit ? editCustomerWithId : addCustomer;
+  const [state, dispatch] = useFormState(dispatchFn, initialState);
 
   return (
     <form action={dispatch}>
@@ -24,6 +35,7 @@ export default function AddCustomerForm() {
               id="name"
               name="name"
               type="text"
+              defaultValue={customer?.name}
               placeholder="Emeka Oluwa"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="name-error"
@@ -52,6 +64,7 @@ export default function AddCustomerForm() {
               id="email"
               name="email"
               type="email"
+              defaultValue={customer?.email}
               placeholder="emekaOluwa@gmail.com"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="name-error"
@@ -75,7 +88,9 @@ export default function AddCustomerForm() {
         >
           Cancel
         </Link>
-        <Button type="submit">Add Customer</Button>
+        <Button type="submit">
+          {isEdit ? "Edit customer" : "Add Customer"}
+        </Button>
       </div>
     </form>
   );
