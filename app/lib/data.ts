@@ -224,10 +224,16 @@ export async function fetchFilteredCustomers(
   }
 }
 
-export async function fetchCustomersPages() {
+export async function fetchCustomersPages(query: string) {
   noStore();
   try {
-    const customersCount = await sql`SELECT COUNT(*) FROM customers`;
+    const customersCount = await sql`
+    SELECT COUNT(*) FROM customers
+    WHERE
+		  customers.name ILIKE ${`%${query}%`} OR
+        customers.email ILIKE ${`%${query}%`}
+    
+    `;
 
     const totalPages = Math.ceil(Number(customersCount.rows[0].count) / 5);
     return totalPages;
