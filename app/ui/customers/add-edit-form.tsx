@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "../button";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { Customer } from "@/app/lib/definitions";
 import { useParams, usePathname } from "next/navigation";
 import { addCustomer, editCustomer } from "@/app/lib/action";
@@ -15,9 +15,11 @@ export default function AddEditCustomerForm({
   customer?: Customer;
 }) {
   const pathName = usePathname();
+  const { pending } = useFormStatus();
   const isEdit = pathName.includes("edit");
   const initialState = { message: null, errors: {} };
   const customerId = customer?.id || "";
+  const btnText = isEdit ? "Edit customer" : "Add Customer";
   const editCustomerWithId = editCustomer.bind(null, customerId);
   const dispatchFn = isEdit ? editCustomerWithId : addCustomer;
   const [state, dispatch] = useFormState(dispatchFn, initialState);
@@ -88,9 +90,7 @@ export default function AddEditCustomerForm({
         >
           Cancel
         </Link>
-        <Button type="submit">
-          {isEdit ? "Edit customer" : "Add Customer"}
-        </Button>
+        <Button type="submit">{btnText}</Button>
       </div>
     </form>
   );

@@ -22,7 +22,7 @@ export default async function Page() {
           },
         ]}
       />
-      <AddEditInvoiceForm customers={customers} />
+      <AddEditInvoiceForm customers={customers || []} />
     </main>
   );
 }

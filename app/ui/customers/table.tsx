@@ -11,10 +11,8 @@ export default async function CustomersTable({
   query: string;
   currentPage: number;
 }) {
-  const customers: FormattedCustomersTable[] = await fetchFilteredCustomers(
-    query,
-    currentPage
-  );
+  const customers: FormattedCustomersTable[] =
+    (await fetchFilteredCustomers(query, currentPage)) || [];
 
   return (
     <div className="w-full">

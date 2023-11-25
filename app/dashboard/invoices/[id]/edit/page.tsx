@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <AddEditInvoiceForm invoice={invoice} customers={customers} />
+      <AddEditInvoiceForm invoice={invoice} customers={customers || []} />
     </main>
   );
 }
