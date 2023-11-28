@@ -154,7 +154,9 @@ export default function AddEditInvoiceForm({
         >
           Cancel
         </Link>
-        <Button type="submit">Edit Invoice</Button>
+        <Button type="submit">
+          {isEdit ? "Edit Invoice" : "Create Invoice"}
+        </Button>
       </div>
     </form>
   );
