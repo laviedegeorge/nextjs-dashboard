@@ -26,7 +26,7 @@ describe("Test all flows in invoice", () => {
     cy.get("a").contains("Invoices").click();
   });
 
-  it.skip("Should search for an invoice", () => {
+  it("Should search for an invoice", () => {
     cy.wait(2000);
     cy.get(`input[placeholder="Search invoices..."]`)
       .clear()
@@ -37,7 +37,7 @@ describe("Test all flows in invoice", () => {
     cy.get("tr").should("have.length", 3);
   });
 
-  it.skip("Should add new invoice", () => {
+  it("Should add new invoice", () => {
     cy.wait(2000);
     // Create invoice
     cy.get("a").contains("Create Invoice").click();
@@ -76,7 +76,7 @@ describe("Test all flows in invoice", () => {
     cy.get("@editInvoice").children().eq(2).should("contain.text", "$75.00");
   });
 
-  it.skip("Should delete invoice", () => {
+  it("Should delete invoice", () => {
     cy.wait(2000);
     // Delete invoice
     cy.get(`tr > td > div > form > button`).first().click();
