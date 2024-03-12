@@ -18,7 +18,14 @@ pnpm dev
 # or
 bun dev
 ```
-To do the above command, you most have [Node.js](https://nodejs.org/en/download/package-manager) and [Npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed. To use either [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/), [Pnpm](https://pnpm.io/installation) or [Bun](https://bun.sh/docs/installation) commands you should have them installed.
+To do the above command, you must have [Node.js](https://nodejs.org/en/download/package-manager) and [Npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed. To use either [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/), [Pnpm](https://pnpm.io/installation) or [Bun](https://bun.sh/docs/installation) commands you should have them installed.
+
+If you are not sure you have Node.js and Npm, use the command below to check before installing.
+
+```
+node -v
+npm -v
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
